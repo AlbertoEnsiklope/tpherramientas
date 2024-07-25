@@ -1,0 +1,61 @@
+#!/bin/bash
+export MAIN_DIR=$PWD
+echo "> Iniciando el servidor. Por favor, espera..."                                                                                 
+echo "> Instalando dependencias..."
+
+sudo apt install -y -qq screen wget  
+
+echo "> ¡Dependencias instaladas!"
+
+echo "> Comprobando el tipo de servidor..."
+if [ -f $MAIN_DIR/server/bedrock_server ]; then
+
+echo "> ¡Servidor Bedrock detectado! Iniciando el servidor..."
+
+elif [ ! -f $MAIN_DIR/server/eula.txt ]; then
+
+cd $MAIN_DIR/server
+echo "> ¡EULA no existe! ¡Creando uno!"
+echo "eula=true" > eula.txt
+echo "> ¡EULA completado! Reiniciando el servidor"
+cd $MAIN_DIR
+screen -S server -d -m ./startJavaServer
+clear
+echo "> Tu servidor está haciendo un segundo reinicio para arreglar el archivo EULA."
+killall screen
+./startserver
+exit
+elif [ -f $MAIN_DIR/server/eula.txt ]; then
+echo "> ¡EULA detectado! Iniciando el servidor..."
+
+else
+echo "> Tu servidor no está configurado correctamente. Desinstalación forzada..."
+cd $MAIN_DIR
+./uninstall
+echo "> ¡Desinstalación confirmada! Reiniciando la instalación..."
+./install
+fi
+
+# aparentemente la gente sigue spameando startserver y terminan teniendo múltiples pantallas de la misma aplicación
+killall screen
+
+screen -S server -d -m ./startJavaServer # Iniciando servidor Java
+screen -S server -d -m ./startBedrockServer # Iniciando servidor Bedrock
+screen -S afk -d -m ./startAfk # Iniciando aplicación AFK, también conocida como bpytop.
+screen -S playit -d -m ./startPlayIt # Iniciando Playit
+
+cd $MAIN_DIR/server
+screen -S server -d -m ./bin/php7/bin/php ./PocketMine-MP.phar --no-wizard --disable-ansi # Iniciando PocketmineMP
+screen -S server -d -m java --add-opens java.base/java.nio=io.netty.common --add-exports java.base/jdk.internal.misc=io.netty.common -p modules -m gomint.server/io.gomint.server.Bootstrap # Iniciando GoMint
+cd $MAIN_DIR
+
+echo "-- ¡Tu servidor está ahora EN LÍNEA! --"
+echo
+echo "Escribe [screen -ls] para comprobar los procesos en ejecución"
+echo "Escribe [screen -r server] para entrar en la consola del servidor"
+echo "Escribe [screen -r playit] para ver la IP de tu servidor"
+echo ""
+echo "> Para detener tu servidor, escribe './stopserver' para detenerlo"
+
+echo -e '\ncomprobando si el servidor se ha lanzado correctamente'
+./.checkserver 2> crash.log
