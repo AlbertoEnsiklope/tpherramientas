@@ -4,6 +4,12 @@ sudo apt update
 sudo apt clean
 sudo apt autoremove
 
+sudo apt remove --purge 'dotnet*'
+sudo apt autoremove
+sudo apt update
+sudo apt install dotnet-sdk-8.0
+
+
 # Descargar la configuración del repositorio y las claves necesarias
 wget https://repo.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.3-3_all.deb
 
