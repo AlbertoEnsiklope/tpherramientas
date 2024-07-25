@@ -31,7 +31,7 @@ then
     wget -q "https://github.com/adoptium/temurin22-binaries/releases/download/jdk-22.0.2%2B9/OpenJDK22U-jdk_x64_linux_hotspot_22.0.2_9.tar.gz" -O bin/java.tar.xz
 else
     echo "Opción no válida. Por favor, introduce 1, 2, 3 o 4."
-    ./UNIVERSOversionado.sh  
+    ./UNIVERSOversionado
 fi
 
 ./installJava
