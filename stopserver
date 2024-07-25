@@ -1,0 +1,9 @@
+#!/bin/bash
+clear
+echo "> ¡Servidor terminado!"
+echo ""
+echo "Para ejecutarlo de nuevo, escribe './startserver' para reiniciar tu servidor."
+echo "Para eliminar tu servidor, escribe './uninstall' para desinstalar y eliminar tu servidor."
+
+# Terminar todas las sesiones de Screen
+killall screen
