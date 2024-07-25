@@ -1,0 +1,12 @@
+#!/bin/sh
+sleep 10
+server=$(screen -ls | grep server)
+if [ -z "$server" ]; then
+    echo -e '\nVaya, parece que tu servidor de Minecraft se ha caído. \nPor favor, revisa el archivo crash.log'
+    ./startJavaServer
+    ./startBedrockServer
+    killall screen
+else
+    echo -e '\nTodo está bien\n'
+fi
+exit
