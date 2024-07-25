@@ -1,0 +1,29 @@
+#!/bin/bash
+export MAIN_DIR=$PWD
+echo "> Comprobando..."
+
+# Comenzar la desinstalación del servidor
+if [ ! -d $MAIN_DIR/server ]; then
+    echo "> Aún no has instalado el servidor..."
+else
+    echo "> ¡Carpeta del servidor detectada!"
+    echo " -- ¿Estás seguro de que quieres desinstalar y eliminar tu servidor? --"
+    echo "Escribe [1] para Sí"
+    echo "Escribe [2] para No"
+
+    read UninstallPick
+
+    if [[ -z $UninstallPick ]]; then
+        echo "> Por defecto, seleccionaste 'No'"
+        echo "> ¡Abortado!"
+    elif [[ $UninstallPick == 1 ]]; then
+        sudo rm -r server
+        sudo rm -rf bin
+        killall screen
+        echo "> ¡Desinstalación completa! Para crear un nuevo servidor, ejecuta ./install"
+    elif [[ $UninstallPick == 2 ]]; then
+        echo "> ¡Abortado!"
+    else
+        echo "> ¡Abortado!"
+    fi
+fi
