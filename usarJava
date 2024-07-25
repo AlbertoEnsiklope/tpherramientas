@@ -1,1 +1,142 @@
+#!/bin/bash
 
+export ESTE_DIRECTORIO=$PWD
+
+instalar_servidor () {
+  eleccion=$1
+  if [[ -z $eleccion ]]
+  then	
+    echo -e "\n> Instalando Vanilla..."
+    cd JavaInstallScripts
+    chmod +x *
+    
+    ./VanillaInstall
+    errorno=${?}
+    if [ $errorno -eq 1 ]
+    then
+      cd $ESTE_DIRECTORIO
+      instalar_servidor $eleccion
+    fi
+
+  # Vanilla
+  elif [[ $eleccion == 1 ]]
+  then
+    echo -e "\n> Instalando Vanilla..."
+    cd JavaInstallScripts
+    chmod +x *
+
+    ./VanillaInstall
+    errorno=${?}
+    if [ $errorno -eq 1 ]
+    then
+	    cd $ESTE_DIRECTORIO
+      instalar_servidor $eleccion
+    fi
+
+  # Paper
+  elif [[ $eleccion == 2 ]]
+  then
+    echo "> Instalando Paper..."
+    cd JavaInstallScripts
+    chmod +x *
+    ./PaperInstall
+
+  # Forge
+  elif [[ $eleccion == 3 ]]
+  then
+    echo "> Instalando Forge..."
+    cd JavaInstallScripts
+    chmod +x *
+    ./ForgeInstall
+
+  # Sponge
+  elif [[ $eleccion == 4 ]]
+  then
+    echo "> Instalando Sponge..."
+    cd JavaInstallScripts
+    chmod +x *
+    ./SpongeInstall
+
+  # Fabric
+  elif [[ $eleccion == 5 ]]
+  then
+    echo "> Instalando Fabric..."
+    cd JavaInstallScripts
+    chmod +x *
+    ./FabricInstall
+
+  elif [[ $eleccion == 6 ]];then
+    echo "> Instalando Spigot..."
+    cd JavaInstallScripts
+    chmod +x *
+    ./SpigotInstall
+
+  elif [[ $eleccion == 7 ]];then
+    echo "> Instalando Bungeecord..."
+    cd JavaInstallScripts
+    chmod +x *
+    ./BungeecordInstall
+
+  # Entrada no válida
+  else
+    echo "¡Respuesta no válida! Por favor, inténtalo de nuevo"
+    ./installJava
+  fi
+}
+
+# Instalando todas las dependencias
+sudo apt install -y -qq screen neofetch 
+
+echo "export PATH=$PATH:/some/new/path" > ~/.profile
+echo "> ¡Instalación de dependencias completada!"
+
+# Descargando ngrok y el servidor de Minecraft
+mkdir server 
+
+echo ""
+echo "-- Elige el siguiente tipo de servidor: --"
+echo "Escribe [1] para crear un servidor Vanilla"
+echo "Escribe [2] para crear un servidor Paper"
+echo "Escribe [3] para crear un servidor Forge"
+echo "Escribe [4] para crear un servidor Sponge"
+echo "Escribe [5] para crear un servidor Fabric"
+echo "Escribe [6] para crear un servidor Spigot (COMPILAR)"
+echo "Escribe [7] para crear un servidor Bungeecord (última versión)"
+eleccionParaServidor=1
+read eleccionParaServidor
+
+instalar_servidor $eleccionParaServidor
+
+# Instalación de respaldo de playit.gg en caso de que la primera no se descargue
+echo "> Instalando Playit.gg..."
+cd ..
+# Nota: esto se descarga directamente del repositorio de playit, cualquier cosa puede suceder.
+curl -SsL https://playit-cloud.github.io/ppa/key.gpg | sudo apt-key add -
+sudo curl -SsL -o /etc/apt/sources.list.d/playit-cloud.list https://playit-cloud.github.io/ppa/playit-cloud.list
+sudo apt update
+sudo apt install playit
+
+echo "> ¡Instalación de Playit.gg completada!"
+echo ""
+echo "-- ¿Quieres iniciar el servidor ahora? --"
+echo "Escribe [1] para Sí"
+echo "Escribe [2] para No"
+
+IniciarServidor=2
+read IniciarServidor
+
+if [[ -z $IniciarServidor ]]; then
+echo "> Por defecto, has seleccionado 'No'."
+echo "> Puedes iniciar el servidor ejecutando ./startserver"
+
+elif [[ $IniciarServidor == 1 ]]; then
+./startserver
+
+elif [[ $IniciarServidor == 2 ]]; then
+echo "Has seleccionado 'No'."
+echo "> Puedes iniciar el servidor ejecutando ./startserver"
+
+else
+echo "> Por defecto, has seleccionado 'No'."
+echo "> Puedes iniciar el servidor ejecutando ./startserver"
+fi
