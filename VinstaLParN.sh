@@ -1,5 +1,9 @@
 #!/bin/bash
 
+sudo apt update
+sudo apt clean
+sudo apt autoremove
+
 # Descargar la configuración del repositorio y las claves necesarias
 wget https://repo.protonvpn.com/debian/dists/stable/main/binary-all/protonvpn-stable-release_1.0.3-3_all.deb
 
