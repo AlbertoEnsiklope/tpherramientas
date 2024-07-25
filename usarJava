@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export ESTE_DIRECTORIO=$PWD
+export THIS_DIR=$PWD
 
 instalar_servidor () {
   eleccion=$1
