@@ -1,0 +1,11 @@
+#!/bin/bash
+FILE=$HOME/.local/bin/bpytop
+
+if test -f "$FILE"; then
+    echo "bpytop ya está instalado (AFK APP RUNNING)."
+else
+    echo "bpytop no está instalado. Instalando AFK app. (Esto puede tardar un poco)."
+    python3 -m pip install bpytop
+fi
+
+$FILE
