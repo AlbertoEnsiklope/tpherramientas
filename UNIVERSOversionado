@@ -1,4 +1,5 @@
 #!/bin/bash
+curl ifconfig.me
 mkdir bin
 chmod +x *
 export MAIN_DIR=$PWD
